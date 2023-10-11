@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Roboto&display=swap');
+/* Agrega una regla CSS para controlar el tamaño de fondo del body */
+body {
+    background-size: contain; /* Otra opción es 'cover' según tus preferencias */
+    background-repeat: no-repeat; /* Evita que se repita la imagen */
+    background-position: center center; /* Centra la imagen en el body */
+}
+
+/* estilo home */
+/* Estilos para el contenedor de logos */
+.logos-home {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Estilos para la lista de navegación */
+.logos-home .menu-nav-home {
+    text-align: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* Cambiar el comportamiento a flexbox */
+    flex-wrap: wrap; /* Permitir que los elementos se envuelvan a la siguiente línea */
+    justify-content: center; /* Centrar horizontalmente los elementos */
+}
+
+/* Estilos para los elementos de la lista */
+.logos-home .menu-nav-home li {
+    margin-right: 40px; /* Espacio entre los elementos de la lista */
+    text-align: center; /* Alinear el texto al centro */
+}
+
+/* Estilos para los enlaces */
+.logos-home .menu-nav-home a {
+    color: #000; /* Color de texto */
+    text-decoration: none; /* Elimina el subrayado */
+    padding: 10px 10px; /* Relleno interior */
+    border-radius: 100px; /* Borde redondeado */
+    display: block; /* Cambiar a bloque para que el texto se coloque debajo de la imagen */
+}
+
+
+
+.logos-home .menu-nav-home img {
+    width: 100px; /* Ancho del logo reducido a 100px (ajusta esto según tus necesidades) */
+    height: 100px; /* Altura del logo reducido a 100px (ajusta esto según tus necesidades) */
+    border-radius: 50%;
+    margin: 0 auto; /* Centrar horizontalmente la imagen */
+    display: block; /* Evitar que la imagen afecte la alineación del texto */
+    border: 2px solid #000;
+}
