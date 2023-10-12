@@ -315,6 +315,10 @@ header{
         grid-template-columns: 1fr; /* Cambia a una sola columna */
     }
 
+    .container-papas {
+        grid-template-columns: 1fr; /* Cambia a una sola columna */
+    }
+
     .item {
         width: 100%; /* Ocupa todo el ancho disponible */
     }
