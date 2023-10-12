@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="space.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Space Chicks Burger</title>
 </head>
 
@@ -13,8 +14,11 @@
         <h1>Space Chicks Burger</h1>
         <div class="icon-home">
             <a href="Index.html">
-                <svg xmlns="http://www.w3.org/2000/svg" height="1em" 
-                viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2c0 2.7-.2 5.4-.5 8.1V472c0 22.1-17.9 40-40 40H456c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1H416 392c-22.1 0-40-17.9-40-40V448 384c0-17.7-14.3-32-32-32H256c-17.7 0-32 14.3-32 32v64 24c0 22.1-17.9 40-40 40H160 128.1c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2H104c-22.1 0-40-17.9-40-40V360c0-.9 0-1.9 .1-2.8V287.6H32c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                    viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                    <path
+                        d="M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2c0 2.7-.2 5.4-.5 8.1V472c0 22.1-17.9 40-40 40H456c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1H416 392c-22.1 0-40-17.9-40-40V448 384c0-17.7-14.3-32-32-32H256c-17.7 0-32 14.3-32 32v64 24c0 22.1-17.9 40-40 40H160 128.1c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2H104c-22.1 0-40-17.9-40-40V360c0-.9 0-1.9 .1-2.8V287.6H32c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z" />
+                </svg>
             </a>
         </div>
         <!-- aqui cuando vayas a agregar el carrito esta el icono y el contador
@@ -29,127 +33,355 @@
                 <span id="contador-productos">0</span>
             </div>
 -->
-            <div class="container-cart-products hidden-cart">
-                <div class="cart-product">
-                    <div class="info-cart-product">
-                        <span class="cantidad-producto-carrito">1</span>
-                        <p class="titulo-producto-carrito">Hamburguesa de pollo</p>
-                        <span class="precio-producto-carrito">$5690</span>
-                    </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="icon-close">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
+        <div class="container-cart-products hidden-cart">
+            <div class="cart-product">
+                <div class="info-cart-product">
+                    <span class="cantidad-producto-carrito">1</span>
+                    <p class="titulo-producto-carrito">Hamburguesa de pollo</p>
+                    <span class="precio-producto-carrito">$5690</span>
                 </div>
-                <div class="cart-total">
-                    <h3>Total:</h3>
-                    <span class="total-pagar">$10500</span>
-                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="icon-close">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
             </div>
+            <div class="cart-total">
+                <h3>Total:</h3>
+                <span class="total-pagar">$10500</span>
+            </div>
+        </div>
         </div>
 
     </header>
     <div class="container-items">
         <div class="header-segmento">
-            <h2>Hamburguesas</h2>
+            <h2>Hamburguesas Smash</h2>
         </div>
+
         <div class="container-burger">
             <div class="item">
                 <figure>
-                    <img src="img/Neptuno.jpg" alt="Hamburguesa Neptuno">
+                    <img src="img/smash tradicional.jpg" alt="Hamburguesa Smash Tradicional">
                 </figure>
                 <div class="info-product">
-                    <h2>Hamburguesa Neptuno</h2>
-                    <p class="price">$4690</p>
-                    <button>Añadir al carrito</button>
+                    <h2>Burger Smash Tradicional</h2>
+                    <p class="price">$3.990</p>
+                <!--      <button>Añadir al carrito</button>-->
+                    <div class="info-details-product">
+                        <div class="container-acordeon">
+                            <button class="acordeon-button active">
+                                Descripcion
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                            <div class="acordeon-content">
+                                <p>
+                                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                    Rem nisi velit reprehenderit accusantium? Veniam quaerat
+                                    ipsam dignissimos amet temporibus minus suscipit voluptas
+                                    necessitatibus ex maiores, placeat tempora hic porro. Odit.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="item">
-                <figure>
-                    <img src="img/moon.jpg" alt="Hamburguesa Moon">
-                </figure>
-                <div class="info-product">
-                    <h2>Hamburguesa Moon</h2>
-                    <p class="price">$4690</p>
-                    <button>Añadir al carrito</button>
+                <div class="item">
+                    <figure>
+                        <img src="img/smash jalapeño.jpg" alt="Hamburguesa Smash Jalapeño">
+                    </figure>
+                    <div class="info-product">
+                        <h2>Burger Jalapeño</h2>
+                        <p class="price">$4990</p>
+                        <!--      <button>Añadir al carrito</button>-->
+                    <div class="info-details-product">
+                        <div class="container-acordeon">
+                            <button class="acordeon-button active">
+                                Descripcion
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                            <div class="acordeon-content">
+                                <p>
+                                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                    Rem nisi velit reprehenderit accusantium? Veniam quaerat
+                                    ipsam dignissimos amet temporibus minus suscipit voluptas
+                                    necessitatibus ex maiores, placeat tempora hic porro. Odit.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div class="item">
+                    <figure>
+                        <img src="img/smash bacon.jpg" alt="Hamburguesa Bacon">
+                    </figure>
+                    <div class="info-product">
+                        <h2>Burger Bacon</h2>
+                        <p class="price">$4990</p>
+                        <!--      <button>Añadir al carrito</button>-->
+                    <div class="info-details-product">
+                        <div class="container-acordeon">
+                            <button class="acordeon-button active">
+                                Descripcion
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                            <div class="acordeon-content">
+                                <p>
+                                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                    Rem nisi velit reprehenderit accusantium? Veniam quaerat
+                                    ipsam dignissimos amet temporibus minus suscipit voluptas
+                                    necessitatibus ex maiores, placeat tempora hic porro. Odit.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
                 </div>
             </div>
-            <div class="item">
-                <figure>
-                    <img src="img/marte burger.jpg" alt="Hamburguesa marte">
-                </figure>
-                <div class="info-product">
-                    <h2>Hamburguesa Marte</h2>
-                    <p class="price">$4.690</p>
-                    <button>Añadir al carrito</button>
+            <div class="header-segmento">
+                <h2>Hamburguesas</h2>
+            </div>
+            <div class="container-burger">
+                <div class="item">
+                    <figure>
+                        <img src="img/Neptuno.jpg" alt="Hamburguesa Neptuno">
+                    </figure>
+                    <div class="info-product">
+                        <h2>Hamburguesa Neptuno</h2>
+                        <p class="price">$4690</p>
+                        <!--      <button>Añadir al carrito</button>-->
+                    <div class="info-details-product">
+                        <div class="container-acordeon">
+                            <button class="acordeon-button active">
+                                Descripcion
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                            <div class="acordeon-content">
+                                <p>
+                                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                    Rem nisi velit reprehenderit accusantium? Veniam quaerat
+                                    ipsam dignissimos amet temporibus minus suscipit voluptas
+                                    necessitatibus ex maiores, placeat tempora hic porro. Odit.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <figure>
+                        <img src="img/moon.jpg" alt="Hamburguesa Moon">
+                    </figure>
+                    <div class="info-product">
+                        <h2>Hamburguesa Moon</h2>
+                        <p class="price">$4690</p>
+                        <!--      <button>Añadir al carrito</button>-->
+                    <div class="info-details-product">
+                        <div class="container-acordeon">
+                            <button class="acordeon-button active">
+                                Descripcion
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                            <div class="acordeon-content">
+                                <p>
+                                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                    Rem nisi velit reprehenderit accusantium? Veniam quaerat
+                                    ipsam dignissimos amet temporibus minus suscipit voluptas
+                                    necessitatibus ex maiores, placeat tempora hic porro. Odit.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <figure>
+                        <img src="img/marte burger.jpg" alt="Hamburguesa marte">
+                    </figure>
+                    <div class="info-product">
+                        <h2>Hamburguesa Marte</h2>
+                        <p class="price">$4.690</p>
+                        <!--      <button>Añadir al carrito</button>-->
+                    <div class="info-details-product">
+                        <div class="container-acordeon">
+                            <button class="acordeon-button active">
+                                Descripcion
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                            <div class="acordeon-content">
+                                <p>
+                                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                    Rem nisi velit reprehenderit accusantium? Veniam quaerat
+                                    ipsam dignissimos amet temporibus minus suscipit voluptas
+                                    necessitatibus ex maiores, placeat tempora hic porro. Odit.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <figure>
+                        <img src="img/jupiter.jpg" alt="Hamburguesa Jupiter">
+                    </figure>
+                    <div class="info-product">
+                        <h2>Hamburguesa Jupíter</h2>
+                        <p class="price">$4.360</p>
+                        <!--      <button>Añadir al carrito</button>-->
+                    <div class="info-details-product">
+                        <div class="container-acordeon">
+                            <button class="acordeon-button active">
+                                Descripcion
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                            <div class="acordeon-content">
+                                <p>
+                                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                    Rem nisi velit reprehenderit accusantium? Veniam quaerat
+                                    ipsam dignissimos amet temporibus minus suscipit voluptas
+                                    necessitatibus ex maiores, placeat tempora hic porro. Odit.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <figure>
+                        <img src="img/tierra.jpg" alt="Hamburguesa Tierra">
+                    </figure>
+                    <div class="info-product">
+                        <h2>Hamburguesa Tierra</h2>
+                        <p class="price">$4690</p>
+                        <!--      <button>Añadir al carrito</button>-->
+                    <div class="info-details-product">
+                        <div class="container-acordeon">
+                            <button class="acordeon-button active">
+                                Descripcion
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                            <div class="acordeon-content">
+                                <p>
+                                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                    Rem nisi velit reprehenderit accusantium? Veniam quaerat
+                                    ipsam dignissimos amet temporibus minus suscipit voluptas
+                                    necessitatibus ex maiores, placeat tempora hic porro. Odit.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
                 </div>
             </div>
-            <div class="item">
-                <figure>
-                    <img src="img/jupiter.jpg" alt="Hamburguesa Jupiter">
-                </figure>
-                <div class="info-product">
-                    <h2>Hamburguesa Jupíter</h2>
-                    <p class="price">$4.360</p>
-                    <button>Añadir al carrito</button>
-                </div>
+            <div class="header-segmento">
+                <h2>Papas Fritas</h2>
             </div>
-            <div class="item">
-                <figure>
-                    <img src="img/tierra.jpg" alt="Hamburguesa Tierra">
-                </figure>
-                <div class="info-product">
-                    <h2>Hamburguesa Tierra</h2>
-                    <p class="price">$4690</p>
-                    <button>Añadir al carrito</button>
+            <div class="container-papas">
+                <div class="item">
+                    <figure>
+                        <img src="img/salchipapas choclo queso.jpg" alt="Salchipapas choclo Queso">
+                    </figure>
+                    <div class="info-product">
+                        <h2>Salchipapas Choclo Queso</h2>
+                        <p class="price">$4690</p>
+                        <!--      <button>Añadir al carrito</button>-->
+                    <div class="info-details-product">
+                        <div class="container-acordeon">
+                            <button class="acordeon-button active">
+                                Descripcion
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                            <div class="acordeon-content">
+                                <p>
+                                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                    Rem nisi velit reprehenderit accusantium? Veniam quaerat
+                                    ipsam dignissimos amet temporibus minus suscipit voluptas
+                                    necessitatibus ex maiores, placeat tempora hic porro. Odit.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="header-segmento">
-            <h2>Papas Fritas</h2>
-        </div>
-        <div class="container-papas">
-            <div class="item">
-                <figure>
-                    <img src="img/salchipapas choclo queso.jpg" alt="Salchipapas choclo Queso">
-                </figure>
-                <div class="info-product">
-                    <h2>Salchipapas Choclo Queso</h2>
-                    <p class="price">$4690</p>
-                    <button>Añadir al carrito</button>
+                <div class="item">
+                    <figure>
+                        <img src="img/salchipapas choclo queso.jpg" alt="Salchipapas choclo Queso">
+                    </figure>
+                    <div class="info-product">
+                        <h2>Salchipapas Choclo Queso</h2>
+                        <p class="price">$4690</p>
+                        <!--      <button>Añadir al carrito</button>-->
+                    <div class="info-details-product">
+                        <div class="container-acordeon">
+                            <button class="acordeon-button active">
+                                Descripcion
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                            <div class="acordeon-content">
+                                <p>
+                                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                    Rem nisi velit reprehenderit accusantium? Veniam quaerat
+                                    ipsam dignissimos amet temporibus minus suscipit voluptas
+                                    necessitatibus ex maiores, placeat tempora hic porro. Odit.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
                 </div>
-            </div>
-            <div class="item">
-                <figure>
-                    <img src="img/salchipapas choclo queso.jpg" alt="Salchipapas choclo Queso">
-                </figure>
-                <div class="info-product">
-                    <h2>Salchipapas Choclo Queso</h2>
-                    <p class="price">$4690</p>
-                    <button>Añadir al carrito</button>
-                </div>
-            </div>
-            <div class="item">
+                <div class="item">
                     <figure>
                         <img src="img/papas broaster.jpg" alt="Papas Pollo Broaster">
                     </figure>
                     <div class="info-product">
                         <h2>Papas Pollo Broaster</h2>
                         <p class="price">$4690</p>
-                        <button>Añadir al carrito</button>
-                    </div>
-            </div>
-            <div class="item">
-                        <figure>
-                            <img src="img/papas cajun.jpeg" alt="Papas Cajun">
-                        </figure>
-                        <div class="info-product">
-                            <h2>Papas Cajun</h2>
-                            <p class="price">$2690</p>
-                            <button>Añadir al carrito</button>
+                        <!--      <button>Añadir al carrito</button>-->
+                    <div class="info-details-product">
+                        <div class="container-acordeon">
+                            <button class="acordeon-button active">
+                                Descripcion
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                            <div class="acordeon-content">
+                                <p>
+                                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                    Rem nisi velit reprehenderit accusantium? Veniam quaerat
+                                    ipsam dignissimos amet temporibus minus suscipit voluptas
+                                    necessitatibus ex maiores, placeat tempora hic porro. Odit.
+                                </p>
+                            </div>
                         </div>
-            </div>
-                        <script src="space.js"></script>
+                    </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <figure>
+                        <img src="img/papas cajun.jpeg" alt="Papas Cajun">
+                    </figure>
+                    <div class="info-product">
+                        <h2>Papas Cajun</h2>
+                        <p class="price">$2690</p>
+                        <!--      <button>Añadir al carrito</button>-->
+                    <div class="info-details-product">
+                        <div class="container-acordeon">
+                            <button class="acordeon-button active">
+                                Descripcion
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                            <div class="acordeon-content">
+                                <p>
+                                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                    Rem nisi velit reprehenderit accusantium? Veniam quaerat
+                                    ipsam dignissimos amet temporibus minus suscipit voluptas
+                                    necessitatibus ex maiores, placeat tempora hic porro. Odit.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <script src="space.js"></script>
 </body>
 
 </html>
