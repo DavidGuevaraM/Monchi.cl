@@ -51,3 +51,11 @@ body {
     display: block; /* Evitar que la imagen afecte la alineación del texto */
     border: 2px solid #000;
 }
+
+
+@media (max-width: 767px) {
+    .logos-home {
+        grid-template-columns: 1fr; /* Cambia a una sola columna */
+    }
+
+}
