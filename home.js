@@ -16,13 +16,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     body.style.backgroundImage = 'url("img/fondo space.gif")';
                     break;
                 case 'american':
-                    body.style.backgroundImage = 'url("img/fondo american.jpg")';
+                    body.style.backgroundImage = 'url("img/fondo space.gif")';
                     break;
                 case 'paparrazis':
-                    body.style.backgroundImage = 'url("img/fondo paparrazis.jpg")';
+                    body.style.backgroundImage = 'url("img/fondo space.gif")';
                     break;
                 case 'ccs':
-                    body.style.backgroundImage = 'url("img/fondo ccs.png")';
+                    body.style.backgroundImage = 'url("img/fondo space.gif")';
                     break;
                 default:
                     body.style.backgroundImage = 'none'; // Restaurar a ningún fondo si no se encuentra ninguna clase específica
