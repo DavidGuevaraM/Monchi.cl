@@ -266,6 +266,10 @@ header{
 }
 
 @media (max-width: 767px) {
+
+    body {
+    overflow-x: hidden;
+}
     .container-burger {
         grid-template-columns: 1fr; /* Cambia a una sola columna */
     }
