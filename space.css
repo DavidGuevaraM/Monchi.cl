@@ -265,6 +265,47 @@ header{
     gap: 20px;
 }
 
+.whatsapp-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.whatsapp-icon {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    padding: 10px;
+    background-color: green; /* Cambia esto al color de fondo deseado */
+    border-radius: 5px; /* Agrega bordes redondeados si lo prefieres */
+    color: white; /* Cambia esto al color de texto deseado */
+    font-weight: bold; /* Estilo de fuente, si lo prefieres */
+    font-size: 16px; /* Tamaño de fuente, si lo prefieres */
+}
+
+.whatsapp-icon img {
+    width: 50px;
+    height: auto;
+    margin-right: 10px; /* Espacio entre la imagen y el texto */
+}
+
+
+@media (max-width: 767px) {
+    body {
+        overflow-x: hidden;
+    }
+    .container-burger {
+        grid-template-columns: 1fr; /* Cambia a una sola columna */
+    }
+
+    .item {
+        width: 100%; /* Ocupa todo el ancho disponible */
+    }
+}
+
+
+
 @media (max-width: 767px) {
 
     body {
