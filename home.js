@@ -45,3 +45,24 @@ function cambiarFondoYColor(color, fondo, link) {
 }
 
 });
+
+// Obtener elementos HTML
+const closePopupButton = document.getElementById("closePopup");
+const popup = document.getElementById("popup");
+
+// Mostrar la ventana emergente automáticamente al cargar la página
+window.addEventListener("load", function() {
+    popup.style.display = "block";
+});
+
+// Cerrar la ventana emergente cuando se hace clic en la "X"
+closePopupButton.addEventListener("click", function() {
+    popup.style.display = "none";
+});
+
+// Cerrar la ventana emergente si se hace clic fuera de ella
+window.addEventListener("click", function(event) {
+    if (event.target == popup) {
+        popup.style.display = "none";
+    }
+});
