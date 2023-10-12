@@ -310,7 +310,9 @@ header{
 
     body {
     overflow-x: hidden;
-}
+        margin: 0 5px; /* Aplica un margen de 10 píxeles a la izquierda y derecha en pantallas móviles */
+    }
+
     .container-burger {
         grid-template-columns: 1fr; /* Cambia a una sola columna */
     }
