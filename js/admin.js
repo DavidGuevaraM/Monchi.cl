@@ -93,12 +93,12 @@ function renderPedidos(pedidos) {
       : '—';
     return `
     <tr>
-      <td><span class="order-num-sm">${p.numero}</span></td>
-      <td>${p.cliente?.nombre || '—'}</td>
-      <td>${p.cliente?.email || '—'}</td>
-      <td>${formatPrice(p.total)}</td>
-      <td><span class="status-badge ${getEstadoClass(p.estado)}">${getEstadoLabel(p.estado)}</span></td>
-      <td>${fecha}</td>
+      <td data-label="N° Pedido"><span class="order-num-sm">${p.numero || '—'}</span></td>
+      <td data-label="Cliente">${p.cliente?.nombre || '—'}</td>
+      <td data-label="Email" class="col-email">${p.cliente?.email || '—'}</td>
+      <td data-label="Total">${formatPrice(p.total)}</td>
+      <td data-label="Estado"><span class="status-badge ${getEstadoClass(p.estado)}">${getEstadoLabel(p.estado)}</span></td>
+      <td data-label="Fecha">${fecha}</td>
       <td>
         <button class="btn-icon" onclick="openPedidoModal('${p.id}')" title="Ver / Editar">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
@@ -175,13 +175,13 @@ function renderProductosAdmin(list) {
 
   tbody.innerHTML = list.map(p => `
     <tr class="${p.activo ? '' : 'row-inactive'}">
-      <td><img src="${p.imagen || 'img/no-image.jpg'}" alt="" class="thumb" onerror="this.src='img/no-image.jpg'"></td>
-      <td>${p.nombre}</td>
-      <td>${CAT_LABELS[p.categoria] || p.categoria}</td>
-      <td>${formatPrice(p.precio)}</td>
-      <td>${p.tallas?.reduce((s,t) => s + t.stock, 0) || 0}</td>
-      <td><span class="badge ${p.activo ? 'badge-active' : 'badge-inactive'}">${p.activo ? 'Activo' : 'Inactivo'}</span></td>
-      <td>
+      <td><img src="${p.imagen || 'img/no-image.jpg'}" alt="${p.nombre}" class="thumb" onerror="this.src='img/no-image.jpg'"></td>
+      <td data-label="Nombre"><strong>${p.nombre}</strong></td>
+      <td data-label="Categoría">${CAT_LABELS[p.categoria] || p.categoria}</td>
+      <td data-label="Precio">${formatPrice(p.precio)}</td>
+      <td data-label="Stock">${p.tallas?.reduce((s,t) => s + t.stock, 0) || 0}</td>
+      <td data-label="Estado"><span class="badge ${p.activo ? 'badge-active' : 'badge-inactive'}">${p.activo ? 'Activo' : 'Inactivo'}</span></td>
+      <td data-label="⭐">
         <button class="btn-icon ${p.destacado ? 'btn-star-on' : 'btn-star-off'}"
                 onclick="toggleDestacado('${p.id}', ${!!p.destacado})"
                 title="${p.destacado ? 'Quitar de destacados' : 'Marcar como destacado'}">★</button>

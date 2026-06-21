@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>Admin — GELYboutique</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
   <link rel="stylesheet" href="css/admin.css">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 </head>
@@ -13,7 +13,14 @@
 <!-- ═══════════ LOGIN ═══════════ -->
 <div id="login-screen">
   <div class="login-card">
-    <div class="login-logo">GELY<span>boutique</span></div>
+    <div class="login-brand">
+      <div class="login-brand-icon">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+        </svg>
+      </div>
+      <div class="login-logo">GELY<span>boutique</span></div>
+    </div>
     <p class="login-subtitle">Panel de Administración</p>
 
     <form id="login-form">
@@ -26,7 +33,7 @@
         <input type="password" id="admin-pass" placeholder="••••••••" required>
       </div>
       <p id="login-error" class="login-error hidden"></p>
-      <button type="submit" class="btn-login">Ingresar</button>
+      <button type="submit" class="btn-login">Ingresar al panel</button>
     </form>
   </div>
 </div>
@@ -34,17 +41,24 @@
 <!-- ═══════════ ADMIN PANEL ═══════════ -->
 <div id="admin-panel" class="hidden">
 <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Abrir menú">
-  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
 </button>
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
   <!-- Sidebar -->
   <aside class="admin-sidebar">
-    <div class="sidebar-logo">GELY<span>boutique</span></div>
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="var(--rose)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+        </svg>
+      </div>
+      GELY<span>boutique</span>
+    </div>
     <nav class="sidebar-nav">
       <div class="nav-section">Principal</div>
       <button class="nav-item active" data-tab="pedidos">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
           <line x1="3" y1="6" x2="21" y2="6"/>
           <path d="M16 10a4 4 0 01-8 0"/>
@@ -53,33 +67,32 @@
       </button>
       <div class="nav-section">Catálogo</div>
       <button class="nav-item" data-tab="productos">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/>
           <line x1="7" y1="7" x2="7.01" y2="7"/>
         </svg>
         Productos
       </button>
       <button class="nav-item" data-tab="inventario">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-          <line x1="8" y1="21" x2="16" y2="21"/>
-          <line x1="12" y1="17" x2="12" y2="21"/>
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/>
+          <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
         </svg>
         Inventario
       </button>
       <div class="nav-section">Tienda</div>
-      <a class="nav-item" href="index.html" target="_blank">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10"/>
-          <line x1="2" y1="12" x2="22" y2="12"/>
-          <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+      <a class="nav-item" href="index.html" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+          <polyline points="15 3 21 3 21 9"/>
+          <line x1="10" y1="14" x2="21" y2="3"/>
         </svg>
         Ver tienda
       </a>
     </nav>
     <div class="sidebar-bottom">
       <button class="btn-logout" id="logout-btn">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
           <polyline points="16 17 21 12 16 7"/>
           <line x1="21" y1="12" x2="9" y2="12"/>
@@ -101,28 +114,49 @@
     <!-- Stats -->
     <div class="stats-grid">
       <div class="stat-card">
-        <div class="stat-icon orange"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+        <div class="stat-icon rose">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+        </div>
         <div>
           <div class="stat-value" id="stat-pedidos">—</div>
           <div class="stat-label">Total pedidos</div>
         </div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon blue"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="stat-icon blue">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
         <div>
           <div class="stat-value" id="stat-pendientes">—</div>
           <div class="stat-label">Pendientes</div>
         </div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon purple"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
+        <div class="stat-icon pink">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/>
+            <line x1="7" y1="7" x2="7.01" y2="7"/>
+          </svg>
+        </div>
         <div>
           <div class="stat-value" id="stat-productos">—</div>
           <div class="stat-label">Productos activos</div>
         </div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon green"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+        <div class="stat-icon green">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="1" x2="12" y2="23"/>
+            <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+          </svg>
+        </div>
         <div>
           <div class="stat-value" id="stat-ingresos">—</div>
           <div class="stat-label">Ingresos totales</div>
@@ -151,15 +185,15 @@
             <tr>
               <th>N° Pedido</th>
               <th>Cliente</th>
-              <th>Email</th>
+              <th class="col-email">Email</th>
               <th>Total</th>
               <th>Estado</th>
               <th>Fecha</th>
-              <th>Acciones</th>
+              <th>Acción</th>
             </tr>
           </thead>
           <tbody id="pedidos-tbody">
-            <tr><td colspan="7" class="text-center text-muted" style="padding:40px;">Cargando pedidos…</td></tr>
+            <tr><td colspan="7" style="padding:48px;text-align:center;color:var(--brown-light);">Cargando pedidos…</td></tr>
           </tbody>
         </table>
       </div>
@@ -170,11 +204,11 @@
       <div class="tab-toolbar">
         <div class="toolbar-left">
           <button class="btn-primary" onclick="nuevoProducto()">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             Nuevo producto
           </button>
           <button class="btn-seed" id="seed-btn">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             Cargar demo
           </button>
         </div>
@@ -187,14 +221,14 @@
               <th>Nombre</th>
               <th>Categoría</th>
               <th>Precio</th>
-              <th>Stock total</th>
+              <th>Stock</th>
               <th>Estado</th>
               <th title="Aparece en sección Destacados">⭐</th>
               <th>Acciones</th>
             </tr>
           </thead>
           <tbody id="productos-tbody">
-            <tr><td colspan="7" class="text-center text-muted" style="padding:40px;">Cargando productos…</td></tr>
+            <tr><td colspan="8" style="padding:48px;text-align:center;color:var(--brown-light);">Cargando productos…</td></tr>
           </tbody>
         </table>
       </div>
@@ -221,10 +255,10 @@
       <button class="btn-modal-close" onclick="closeModal('pedido-modal')">✕</button>
     </div>
     <div class="modal-body">
-      <h4 style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--brown-mid);margin-bottom:8px;">Cliente</h4>
+      <p class="section-label">Cliente</p>
       <div id="modal-cliente" class="modal-cliente"></div>
 
-      <h4 style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--brown-mid);margin-top:20px;margin-bottom:8px;">Productos</h4>
+      <p class="section-label" style="margin-top:18px;">Productos del pedido</p>
       <div id="modal-items"></div>
 
       <label class="modal-label">Estado del pedido</label>
@@ -240,9 +274,9 @@
       <label class="modal-label">URL de rastreo (opcional)</label>
       <input type="url" id="modal-tracking" class="modal-tracking" placeholder="https://seguimiento.correos.cl/...">
 
-      <p style="font-size:.75rem;color:var(--brown-light);margin-top:10px;">
-        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:4px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Al guardar, se enviará un correo automático al cliente notificando el cambio de estado.
+      <p class="modal-note">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Al guardar se enviará un correo automático al cliente notificando el cambio de estado.
       </p>
     </div>
     <div class="modal-footer">
@@ -276,62 +310,44 @@
             <input type="number" name="precio" placeholder="25990" required min="0">
           </div>
           <div class="form-group">
-            <label>Precio original (CLP)</label>
+            <label>Precio original (tachado)</label>
             <input type="number" name="precioOriginal" placeholder="34990" min="0">
           </div>
           <div class="form-group">
             <label>Categoría *</label>
             <select name="categoria" required>
               <option value="">Selecciona…</option>
-              <option value="tops">Tops & Bras</option>
-              <option value="bottoms">Bottoms & Leggings</option>
+              <option value="tops">Tops &amp; Bras</option>
+              <option value="bottoms">Bottoms &amp; Leggings</option>
               <option value="conjuntos">Conjuntos</option>
               <option value="calzado">Calzado</option>
               <option value="accesorios">Accesorios</option>
             </select>
           </div>
           <div class="form-group full">
-            <label>Imagen (URL o ruta local)</label>
+            <label>Imagen (ruta o URL)</label>
             <input type="text" name="imagen" placeholder="img/producto-1.jpg  o  https://...">
           </div>
         </div>
 
-        <div style="margin-bottom:10px;">
-          <label style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--brown-mid);display:block;margin-bottom:10px;">Stock por talla</label>
+        <div style="margin-bottom:14px;">
+          <label style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--brown-mid);display:block;margin-bottom:10px;">Stock por talla</label>
           <div class="sizes-form">
-            <div class="size-form-item">
-              <span class="size-form-label">XS</span>
-              <input type="number" id="stock-XS" class="size-form-input" value="0" min="0">
-            </div>
-            <div class="size-form-item">
-              <span class="size-form-label">S</span>
-              <input type="number" id="stock-S" class="size-form-input" value="0" min="0">
-            </div>
-            <div class="size-form-item">
-              <span class="size-form-label">M</span>
-              <input type="number" id="stock-M" class="size-form-input" value="0" min="0">
-            </div>
-            <div class="size-form-item">
-              <span class="size-form-label">L</span>
-              <input type="number" id="stock-L" class="size-form-input" value="0" min="0">
-            </div>
-            <div class="size-form-item">
-              <span class="size-form-label">XL</span>
-              <input type="number" id="stock-XL" class="size-form-input" value="0" min="0">
-            </div>
-            <div class="size-form-item">
-              <span class="size-form-label">XXL</span>
-              <input type="number" id="stock-XXL" class="size-form-input" value="0" min="0">
-            </div>
+            <div class="size-form-item"><span class="size-form-label">XS</span><input type="number" id="stock-XS" class="size-form-input" value="0" min="0"></div>
+            <div class="size-form-item"><span class="size-form-label">S</span><input type="number" id="stock-S" class="size-form-input" value="0" min="0"></div>
+            <div class="size-form-item"><span class="size-form-label">M</span><input type="number" id="stock-M" class="size-form-input" value="0" min="0"></div>
+            <div class="size-form-item"><span class="size-form-label">L</span><input type="number" id="stock-L" class="size-form-input" value="0" min="0"></div>
+            <div class="size-form-item"><span class="size-form-label">XL</span><input type="number" id="stock-XL" class="size-form-input" value="0" min="0"></div>
+            <div class="size-form-item"><span class="size-form-label">XXL</span><input type="number" id="stock-XXL" class="size-form-input" value="0" min="0"></div>
           </div>
         </div>
 
         <div class="checkbox-row">
           <label class="form-check">
-            <input type="checkbox" name="destacado"> Producto destacado
+            <input type="checkbox" name="destacado"> ⭐ Producto destacado
           </label>
           <label class="form-check">
-            <input type="checkbox" name="nuevo"> Marcar como nuevo
+            <input type="checkbox" name="nuevo"> ✨ Marcar como nuevo
           </label>
         </div>
 
@@ -368,16 +384,16 @@
 
   // Update page titles on tab change
   const tabTitles = {
-    pedidos: { title:'Pedidos', sub:'Gestiona y actualiza el estado de los pedidos' },
-    productos: { title:'Productos', sub:'Agrega, edita y administra tu catálogo' },
+    pedidos:    { title:'Pedidos',    sub:'Gestiona y actualiza el estado de los pedidos' },
+    productos:  { title:'Productos',  sub:'Agrega, edita y administra tu catálogo' },
     inventario: { title:'Inventario', sub:'Controla el stock por talla en tiempo real' }
   };
   document.querySelectorAll('[data-tab]').forEach(btn => {
     btn.addEventListener('click', () => {
       const t = tabTitles[btn.dataset.tab];
       if (t) {
-        document.getElementById('page-title').textContent = t.title;
-        document.getElementById('page-subtitle').textContent = t.sub;
+        document.getElementById('page-title').textContent     = t.title;
+        document.getElementById('page-subtitle').textContent  = t.sub;
       }
     });
   });
