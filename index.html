@@ -112,6 +112,27 @@
   </div>
 </section>
 
+<!-- Productos Destacados Carousel -->
+<section class="featured-section" id="destacados">
+  <div class="container">
+    <div class="featured-header">
+      <div>
+        <span class="section-eyebrow">Selección especial</span>
+        <h2 class="section-title">Lo Más Destacado</h2>
+      </div>
+      <a href="#productos" class="featured-link">Ver todo →</a>
+    </div>
+    <div class="featured-track-wrap" id="featured-track-wrap">
+      <div class="featured-track" id="featured-track">
+        <div class="fc-skeleton"></div>
+        <div class="fc-skeleton"></div>
+        <div class="fc-skeleton"></div>
+        <div class="fc-skeleton"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Categorías -->
 <section class="section-sm categories" id="categorias">
   <div class="container">
@@ -342,6 +363,77 @@
       b.classList.toggle('active', b.dataset.catFilter === urlCat);
     });
   }
+
+  // ── Featured products carousel ──
+  (function () {
+    const track = document.getElementById('featured-track');
+    const wrap  = document.getElementById('featured-track-wrap');
+    if (!track || !wrap) return;
+
+    // Drag-to-scroll
+    let isDown = false, startX, scrollLeft;
+    wrap.addEventListener('mousedown', function (e) {
+      isDown = true; wrap.classList.add('grabbing');
+      startX = e.pageX - wrap.offsetLeft;
+      scrollLeft = wrap.scrollLeft;
+    });
+    wrap.addEventListener('mouseleave', function () { isDown = false; wrap.classList.remove('grabbing'); });
+    wrap.addEventListener('mouseup',    function () { isDown = false; wrap.classList.remove('grabbing'); });
+    wrap.addEventListener('mousemove',  function (e) {
+      if (!isDown) return;
+      e.preventDefault();
+      wrap.scrollLeft = scrollLeft - (e.pageX - wrap.offsetLeft - startX);
+    });
+
+    function fmt(n) { return '$' + n.toLocaleString('es-CL'); }
+
+    function cardHTML(p) {
+      const wasHtml = p.precioOriginal > 0
+        ? '<span class="fc-price-was">' + fmt(p.precioOriginal) + '</span>' : '';
+      return '<div class="fc-card">' +
+        '<div class="fc-img-wrap"><img src="' + (p.imagen || 'img/no-image.jpg') + '" alt="' + p.nombre + '" loading="lazy" onerror="this.src=\'img/no-image.jpg\'"></div>' +
+        '<div class="fc-body">' +
+          '<div class="fc-cat">' + p.categoria + '</div>' +
+          '<div class="fc-name">' + p.nombre + '</div>' +
+          '<div class="fc-price"><span class="fc-price-now">' + fmt(p.precio) + '</span>' + wasHtml + '</div>' +
+          '<a href="#productos" class="fc-btn" data-filter="' + p.categoria + '">Ver producto</a>' +
+        '</div></div>';
+    }
+
+    function loadFeatured() {
+      if (typeof db === 'undefined') { setTimeout(loadFeatured, 200); return; }
+      db.collection('productos')
+        .where('destacado', '==', true)
+        .where('activo', '==', true)
+        .limit(8)
+        .get()
+        .then(function (snap) {
+          if (snap.empty) {
+            track.innerHTML = '<p style="color:var(--brown-light);padding:24px 0;">No hay productos destacados aún.</p>';
+            return;
+          }
+          track.innerHTML = snap.docs.map(function (d) { return cardHTML(Object.assign({ id: d.id }, d.data())); }).join('');
+          track.querySelectorAll('[data-filter]').forEach(function (el) {
+            el.addEventListener('click', function () {
+              var cat = this.dataset.filter;
+              if (!cat) return;
+              if (typeof activeFilters !== 'undefined') {
+                activeFilters.categoria = cat;
+                document.querySelectorAll('[data-cat-filter]').forEach(function (b) {
+                  b.classList.toggle('active', b.dataset.catFilter === cat);
+                });
+                if (typeof applyFilters === 'function') applyFilters();
+              }
+            });
+          });
+        })
+        .catch(function () {
+          track.innerHTML = '<p style="color:var(--brown-light);padding:24px 0;">No se pudo cargar.</p>';
+        });
+    }
+
+    loadFeatured();
+  })();
 
   // ── Hero video scroll scrubbing (lerp-smoothed) ──
   (function () {
