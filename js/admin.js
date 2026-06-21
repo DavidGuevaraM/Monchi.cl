@@ -5,8 +5,6 @@ let currentTab       = 'pedidos';
 let unsubscribers    = [];
 let pendingImageFile = null;
 
-const storage = firebase.storage();
-
 // ── Auth ──────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   auth.onAuthStateChanged(user => {
@@ -410,11 +408,28 @@ function clearImgPreview() {
   pendingImageFile = null;
 }
 
-async function uploadImagen(file) {
-  const ext  = file.name.split('.').pop().toLowerCase();
-  const path = `productos/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-  const snap = await storage.ref(path).put(file);
-  return await snap.ref.getDownloadURL();
+function uploadImagen(file) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      const MAX_W = 900, MAX_H = 1100;
+      let { width, height } = img;
+      if (width > MAX_W || height > MAX_H) {
+        const ratio = Math.min(MAX_W / width, MAX_H / height);
+        width  = Math.round(width  * ratio);
+        height = Math.round(height * ratio);
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width  = width;
+      canvas.height = height;
+      canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+      resolve(canvas.toDataURL('image/jpeg', 0.82));
+    };
+    img.onerror = reject;
+    img.src = url;
+  });
 }
 
 // ── Helpers ───────────────────────────────────────────────────
