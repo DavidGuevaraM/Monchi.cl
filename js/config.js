@@ -29,7 +29,7 @@ emailjs.init(EMAILJS_PUBLIC_KEY);
 const TIENDA = {
   nombre:           'GELYboutique',
   email:            'contacto@gelyboutique.cl',
-  whatsapp:         '+56912345678',
+  whatsapp:         '+56933589365',
   instagram:        '@gelyboutique',
   costoEnvio:       3990,
   minimoEnvioGratis: 50000
