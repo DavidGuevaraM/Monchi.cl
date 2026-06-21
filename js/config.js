@@ -3,12 +3,12 @@
 // ============================================================
 
 const firebaseConfig = {
-  apiKey: "TU_API_KEY",
-  authDomain: "TU_PROJECT_ID.firebaseapp.com",
-  projectId: "TU_PROJECT_ID",
-  storageBucket: "TU_PROJECT_ID.appspot.com",
-  messagingSenderId: "TU_MESSAGING_SENDER_ID",
-  appId: "TU_APP_ID"
+  apiKey:            "AIzaSyBOkg9YfHr6ZU0j3vZGt9XMrXh-841nEEU",
+  authDomain:        "gelyboutique-2747c.firebaseapp.com",
+  projectId:         "gelyboutique-2747c",
+  storageBucket:     "gelyboutique-2747c.firebasestorage.app",
+  messagingSenderId: "732419572133",
+  appId:             "1:732419572133:web:603d0e0122b4de772f684c"
 };
 
 firebase.initializeApp(firebaseConfig);
