@@ -131,8 +131,8 @@ td.actions { display:flex; gap:6px; align-items:center; }
 /* ── Status badges ── */
 .status-badge{display:inline-flex;align-items:center;padding:4px 12px;border-radius:50px;font-size:.75rem;font-weight:700;letter-spacing:.3px;}
 .status-pending  {background:#FEF3E2;color:#D68910;}
-.status-confirmed{background:#E9F5FF;color:#2471A3;}
-.status-preparing{background:#EBF5FB;color:#1A6B9A;}
+.status-confirmed{background:#E8F2F0;color:#7A9890;}
+.status-preparing{background:#DFF0EC;color:#4A8078;}
 .status-shipped  {background:#E8F8F5;color:#1E8449;}
 .status-delivered{background:#D5F5E3;color:#196F3D;}
 .status-cancelled{background:#FDEDEC;color:#C0392B;}
