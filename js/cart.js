@@ -88,4 +88,29 @@ function showToast(msg, type = 'success') {
   }, 3000);
 }
 
-document.addEventListener('DOMContentLoaded', updateAllBadges);
+document.addEventListener('DOMContentLoaded', function () {
+  updateAllBadges();
+
+  // Hide header on scroll-down, reveal on scroll-up
+  const header = document.querySelector('.site-header');
+  if (!header) return;
+  let lastY = 0;
+  let ticking = false;
+
+  function handleHeaderScroll() {
+    ticking = false;
+    const y = window.scrollY;
+    if (y < 80) {
+      header.classList.remove('header-hidden');
+    } else if (y - lastY > 4) {
+      header.classList.add('header-hidden');
+    } else if (lastY - y > 4) {
+      header.classList.remove('header-hidden');
+    }
+    lastY = y;
+  }
+
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(handleHeaderScroll); }
+  }, { passive: true });
+});

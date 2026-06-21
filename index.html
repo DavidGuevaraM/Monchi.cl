@@ -343,7 +343,7 @@
     });
   }
 
-  // ── Hero video scroll scrubbing ──
+  // ── Hero video scroll scrubbing (lerp-smoothed) ──
   (function () {
     const hero      = document.querySelector('.hero');
     const video     = document.getElementById('hero-video');
@@ -352,46 +352,53 @@
     const scrollCue = document.getElementById('scroll-cue');
     if (!hero || !video) return;
 
-    // Trigger load on iOS (needs a play/pause to buffer)
-    const loadPromise = video.play();
-    if (loadPromise) loadPromise.then(() => { video.pause(); video.currentTime = 0; }).catch(() => {});
+    // iOS: trigger buffer with silent play/pause
+    const p0 = video.play();
+    if (p0) p0.then(function () { video.pause(); video.currentTime = 0; }).catch(function () {});
 
-    let raf = null;
+    let targetP  = 0;  // raw scroll progress
+    let displayP = 0;  // smoothed progress driving the video
+    let rafId    = null;
 
-    function scrub() {
-      raf = null;
-      const heroTop  = hero.getBoundingClientRect().top;
+    function scrollProgress() {
       const scrollable = hero.offsetHeight - window.innerHeight;
-      if (scrollable <= 0) return;
+      if (scrollable <= 0) return 0;
+      return Math.min(Math.max(-hero.getBoundingClientRect().top / scrollable, 0), 1);
+    }
 
-      const p = Math.min(Math.max(-heroTop / scrollable, 0), 1);
-
-      // Scrub video frame
-      if (video.readyState >= 1 && video.duration) {
-        video.currentTime = video.duration * p;
-      }
-
-      // Text fades out 12% → 32%
+    function applyP(p) {
+      if (video.readyState >= 1 && video.duration) video.currentTime = video.duration * p;
       const tOp = p < 0.12 ? 1 : Math.max(0, 1 - (p - 0.12) / 0.20);
       textLayer.style.opacity = tOp;
       textLayer.style.transform = 'translateY(' + ((1 - tOp) * -28) + 'px)';
-
-      // Scroll cue fades instantly
       scrollCue.style.opacity = Math.max(0, 1 - p * 10);
-
-      // Hotspots appear sequentially
       hotspots[0] && hotspots[0].classList.toggle('visible', p >= 0.30);
       hotspots[1] && hotspots[1].classList.toggle('visible', p >= 0.55);
       hotspots[2] && hotspots[2].classList.toggle('visible', p >= 0.75);
     }
 
+    function lerpTick() {
+      const diff = targetP - displayP;
+      displayP += diff * 0.10; // 10% per frame → smooth lag
+      applyP(displayP);
+      if (Math.abs(diff) > 0.0008) {
+        rafId = requestAnimationFrame(lerpTick);
+      } else {
+        displayP = targetP;
+        applyP(displayP);
+        rafId = null;
+      }
+    }
+
     window.addEventListener('scroll', function () {
-      if (!raf) raf = requestAnimationFrame(scrub);
+      targetP = scrollProgress();
+      if (!rafId) rafId = requestAnimationFrame(lerpTick);
     }, { passive: true });
 
-    scrub();
+    targetP = scrollProgress();
+    lerpTick();
 
-    // Hotspot tap → apply catalog filter then scroll to products
+    // Hotspot tap → filter catalog
     document.querySelectorAll('[data-filter]').forEach(function (el) {
       el.addEventListener('click', function () {
         const cat = this.dataset.filter;
