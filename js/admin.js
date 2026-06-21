@@ -165,6 +165,14 @@ function renderProductosAdmin(list) {
   const tbody = document.getElementById('productos-tbody');
   if (!tbody) return;
 
+  if (list.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8" style="padding:48px;text-align:center;">
+      <p style="color:var(--brown-light);margin-bottom:16px;">No hay productos aún.</p>
+      <button class="btn-seed" onclick="document.getElementById('seed-btn').click()">+ Cargar productos de demo</button>
+    </td></tr>`;
+    return;
+  }
+
   tbody.innerHTML = list.map(p => `
     <tr class="${p.activo ? '' : 'row-inactive'}">
       <td><img src="${p.imagen || 'img/no-image.jpg'}" alt="" class="thumb" onerror="this.src='img/no-image.jpg'"></td>
@@ -173,6 +181,11 @@ function renderProductosAdmin(list) {
       <td>${formatPrice(p.precio)}</td>
       <td>${p.tallas?.reduce((s,t) => s + t.stock, 0) || 0}</td>
       <td><span class="badge ${p.activo ? 'badge-active' : 'badge-inactive'}">${p.activo ? 'Activo' : 'Inactivo'}</span></td>
+      <td>
+        <button class="btn-icon ${p.destacado ? 'btn-star-on' : 'btn-star-off'}"
+                onclick="toggleDestacado('${p.id}', ${!!p.destacado})"
+                title="${p.destacado ? 'Quitar de destacados' : 'Marcar como destacado'}">★</button>
+      </td>
       <td class="actions">
         <button class="btn-icon" onclick="editarProducto('${p.id}')" title="Editar">✏️</button>
         <button class="btn-icon danger" onclick="toggleProductoActivo('${p.id}', ${p.activo})" title="${p.activo ? 'Desactivar' : 'Activar'}">
@@ -182,6 +195,11 @@ function renderProductosAdmin(list) {
       </td>
     </tr>
   `).join('');
+}
+
+async function toggleDestacado(pid, isDestacado) {
+  await db.collection('productos').doc(pid).update({ destacado: !isDestacado, fechaActualizacion: firebase.firestore.FieldValue.serverTimestamp() });
+  showToast(isDestacado ? 'Quitado de destacados' : '⭐ Marcado como destacado');
 }
 
 async function guardarProducto(e) {
@@ -346,6 +364,16 @@ document.querySelectorAll('.modal-backdrop').forEach(m => {
 
 // Seed demo products button
 document.getElementById('seed-btn')?.addEventListener('click', seedDemoProducts);
+
+function showToast(msg, type = 'success') {
+  let t = document.querySelector('.toast');
+  if (!t) { t = document.createElement('div'); t.className = 'toast'; document.body.appendChild(t); }
+  t.className = `toast toast-${type}`;
+  t.textContent = msg;
+  requestAnimationFrame(() => t.classList.add('show'));
+  clearTimeout(t._tid);
+  t._tid = setTimeout(() => { t.classList.remove('show'); }, 3200);
+}
 
 async function seedDemoProducts() {
   if (!confirm('¿Agregar productos de demostración?')) return;

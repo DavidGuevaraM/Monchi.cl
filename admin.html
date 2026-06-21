@@ -33,6 +33,10 @@
 
 <!-- ═══════════ ADMIN PANEL ═══════════ -->
 <div id="admin-panel" class="hidden">
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Abrir menú">
+  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
 
   <!-- Sidebar -->
   <aside class="admin-sidebar">
@@ -185,6 +189,7 @@
               <th>Precio</th>
               <th>Stock total</th>
               <th>Estado</th>
+              <th title="Aparece en sección Destacados">⭐</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -286,8 +291,8 @@
             </select>
           </div>
           <div class="form-group full">
-            <label>URL de imagen</label>
-            <input type="url" name="imagen" placeholder="https://...">
+            <label>Imagen (URL o ruta local)</label>
+            <input type="text" name="imagen" placeholder="img/producto-1.jpg  o  https://...">
           </div>
         </div>
 
@@ -349,6 +354,18 @@
 <script src="js/admin.js"></script>
 
 <script>
+  // Mobile sidebar toggle
+  const sidebarToggle  = document.getElementById('sidebar-toggle');
+  const sidebarOverlay = document.getElementById('sidebar-overlay');
+  const sidebar        = document.querySelector('.admin-sidebar');
+  function closeSidebar() { sidebar.classList.remove('open'); sidebarOverlay.classList.remove('open'); }
+  sidebarToggle?.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+    sidebarOverlay.classList.toggle('open');
+  });
+  sidebarOverlay?.addEventListener('click', closeSidebar);
+  document.querySelectorAll('[data-tab]').forEach(btn => btn.addEventListener('click', closeSidebar));
+
   // Update page titles on tab change
   const tabTitles = {
     pedidos: { title:'Pedidos', sub:'Gestiona y actualiza el estado de los pedidos' },
