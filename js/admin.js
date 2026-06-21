@@ -166,16 +166,16 @@ function renderProductosAdmin(list) {
   if (!tbody) return;
 
   if (list.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="8" style="padding:48px;text-align:center;">
-      <p style="color:var(--brown-light);margin-bottom:16px;">No hay productos aún.</p>
-      <button class="btn-seed" onclick="document.getElementById('seed-btn').click()">+ Cargar productos de demo</button>
+    tbody.innerHTML = `<tr><td colspan="8" style="padding:52px;text-align:center;">
+      <p style="color:var(--brown-light);font-size:.95rem;margin-bottom:16px;">No hay productos aún.</p>
+      <button class="btn-primary" onclick="nuevoProducto()">+ Agregar primer producto</button>
     </td></tr>`;
     return;
   }
 
   tbody.innerHTML = list.map(p => `
     <tr class="${p.activo ? '' : 'row-inactive'}">
-      <td><img src="${p.imagen || 'img/no-image.jpg'}" alt="${p.nombre}" class="thumb" onerror="this.src='img/no-image.jpg'"></td>
+      <td><img src="${p.imagen || 'img/no-image.jpg'}" alt="${p.nombre}" class="thumb" onerror="this.onerror=null;this.src='img/no-image.jpg'"></td>
       <td data-label="Nombre"><strong>${p.nombre}</strong></td>
       <td data-label="Categoría">${CAT_LABELS[p.categoria] || p.categoria}</td>
       <td data-label="Precio">${formatPrice(p.precio)}</td>
@@ -204,9 +204,11 @@ async function toggleDestacado(pid, isDestacado) {
 
 async function guardarProducto(e) {
   e.preventDefault();
-  const form = document.getElementById('product-form');
-  const data = Object.fromEntries(new FormData(form));
-  const pid  = form.dataset.pid;
+  const form   = document.getElementById('product-form');
+  const btn    = form.querySelector('[type="submit"]');
+  const data   = Object.fromEntries(new FormData(form));
+  const pid    = form.dataset.pid;
+  btn.disabled = true;
 
   const tallas = ['XS','S','M','L','XL','XXL'].map(t => ({
     talla: t,
@@ -214,49 +216,60 @@ async function guardarProducto(e) {
   }));
 
   const productData = {
-    nombre:        data.nombre,
-    descripcion:   data.descripcion || '',
-    precio:        parseInt(data.precio),
+    nombre:         data.nombre,
+    descripcion:    data.descripcion || '',
+    precio:         parseInt(data.precio),
     precioOriginal: parseInt(data.precioOriginal || '0'),
-    categoria:     data.categoria,
-    imagen:        data.imagen || '',
+    categoria:      data.categoria,
+    imagen:         data.imagen || '',
     tallas,
-    destacado:     data.destacado === 'on',
-    nuevo:         data.nuevo === 'on',
-    activo:        true,
+    destacado:      data.destacado === 'on',
+    nuevo:          data.nuevo === 'on',
+    activo:         true,
     fechaActualizacion: firebase.firestore.FieldValue.serverTimestamp()
   };
 
-  if (pid) {
-    await db.collection('productos').doc(pid).update(productData);
-    showToast('Producto actualizado');
-  } else {
-    productData.fechaCreacion = firebase.firestore.FieldValue.serverTimestamp();
-    await db.collection('productos').add(productData);
-    showToast('Producto creado');
+  try {
+    if (pid) {
+      await db.collection('productos').doc(pid).update(productData);
+      showToast('Producto actualizado');
+    } else {
+      productData.fechaCreacion = firebase.firestore.FieldValue.serverTimestamp();
+      await db.collection('productos').add(productData);
+      showToast('Producto creado');
+    }
+    closeModal('product-modal');
+    form.reset();
+    form.dataset.pid = '';
+  } catch(err) {
+    console.error('Error guardando producto:', err);
+    showToast('Error al guardar. Intenta de nuevo.', 'error');
+  } finally {
+    btn.disabled = false;
   }
-
-  closeModal('product-modal');
-  form.reset();
-  form.dataset.pid = '';
 }
 
 async function editarProducto(pid) {
   const doc  = await db.collection('productos').doc(pid).get();
   const p    = doc.data();
   const form = document.getElementById('product-form');
+  form.reset();
   form.dataset.pid = pid;
 
   ['nombre','descripcion','precio','precioOriginal','categoria','imagen'].forEach(field => {
     const el = form.querySelector(`[name="${field}"]`);
-    if (el) el.value = p[field] || '';
+    if (el) el.value = p[field] ?? '';
   });
 
-  const chkDest = form.querySelector('[name="destacado"]');
+  const chkDest  = form.querySelector('[name="destacado"]');
   const chkNuevo = form.querySelector('[name="nuevo"]');
-  if (chkDest) chkDest.checked = !!p.destacado;
+  if (chkDest)  chkDest.checked  = !!p.destacado;
   if (chkNuevo) chkNuevo.checked = !!p.nuevo;
 
+  ['XS','S','M','L','XL','XXL'].forEach(t => {
+    const el = document.getElementById(`stock-${t}`);
+    if (el) el.value = 0;
+  });
   (p.tallas || []).forEach(t => {
     const el = document.getElementById(`stock-${t.talla}`);
     if (el) el.value = t.stock;
@@ -315,7 +328,7 @@ function renderInventario(list) {
     return `
     <div class="inv-card">
       <div class="inv-header">
-        <img src="${p.imagen || 'img/no-image.jpg'}" alt="${p.nombre}" class="inv-thumb" onerror="this.src='img/no-image.jpg'">
+        <img src="${p.imagen || 'img/no-image.jpg'}" alt="${p.nombre}" class="inv-thumb" onerror="this.onerror=null;this.src='img/no-image.jpg'">
         <div>
           <h4>${p.nombre}</h4>
           <p class="text-muted">${CAT_LABELS[p.categoria] || p.categoria}</p>
@@ -327,11 +340,17 @@ function renderInventario(list) {
 }
 
 async function actualizarStock(productId, talla, nuevoStock) {
-  const doc   = await db.collection('productos').doc(productId).get();
-  const tallas = (doc.data().tallas || []).map(t =>
-    t.talla === talla ? { ...t, stock: Math.max(0, parseInt(nuevoStock) || 0) } : t
-  );
-  await db.collection('productos').doc(productId).update({ tallas });
+  try {
+    const doc   = await db.collection('productos').doc(productId).get();
+    const tallas = (doc.data().tallas || []).map(t =>
+      t.talla === talla ? { ...t, stock: Math.max(0, parseInt(nuevoStock) || 0) } : t
+    );
+    await db.collection('productos').doc(productId).update({ tallas });
+    showToast('Stock actualizado', 'success');
+  } catch(e) {
+    console.error('Error actualizando stock:', e);
+    showToast('Error al guardar el stock', 'error');
+  }
 }
 
 // ── Helpers ───────────────────────────────────────────────────
@@ -362,9 +381,6 @@ document.querySelectorAll('.modal-backdrop').forEach(m => {
   });
 });
 
-// Seed demo products button
-document.getElementById('seed-btn')?.addEventListener('click', seedDemoProducts);
-
 function showToast(msg, type = 'success') {
   let t = document.querySelector('.toast');
   if (!t) { t = document.createElement('div'); t.className = 'toast'; document.body.appendChild(t); }
@@ -375,23 +391,3 @@ function showToast(msg, type = 'success') {
   t._tid = setTimeout(() => { t.classList.remove('show'); }, 3200);
 }
 
-async function seedDemoProducts() {
-  if (!confirm('¿Agregar productos de demostración?')) return;
-  const demo = [
-    { nombre:'Conjunto Vino & Crema', descripcion:'Set halter top + shorts sculpt en vinotinto y crema. Tela de alto rendimiento con compresión media.', precio:54990, precioOriginal:69990, categoria:'conjuntos', imagen:'img/producto-1.jpg', tallas:[{talla:'XS',stock:3},{talla:'S',stock:5},{talla:'M',stock:4},{talla:'L',stock:2},{talla:'XL',stock:1},{talla:'XXL',stock:0}], destacado:true, nuevo:true, activo:true },
-    { nombre:'Top Espalda Abierta', descripcion:'Top manga larga con espalda abierta en chocolate y negro. Tejido técnico suave de secado rápido.', precio:28990, precioOriginal:0, categoria:'tops', imagen:'img/producto-2.jpg', tallas:[{talla:'XS',stock:4},{talla:'S',stock:6},{talla:'M',stock:5},{talla:'L',stock:3},{talla:'XL',stock:2},{talla:'XXL',stock:0}], destacado:true, nuevo:true, activo:true },
-    { nombre:'Sport Bra Halter', descripcion:'Bra deportivo halter con fruncido frontal. Disponible en plateado, negro y crema. Sujeción media, ideal para pilates y yoga.', precio:24990, precioOriginal:32990, categoria:'tops', imagen:'img/producto-3.jpg', tallas:[{talla:'XS',stock:5},{talla:'S',stock:8},{talla:'M',stock:3},{talla:'L',stock:0},{talla:'XL',stock:2},{talla:'XXL',stock:0}], destacado:true, nuevo:false, activo:true },
-    { nombre:'Conjunto Khaki Active', descripcion:'Top manga larga + shorts coordinados en beige khaki. Corte relajado y tela ultrasuave para entrenamientos ligeros.', precio:49990, precioOriginal:0, categoria:'conjuntos', imagen:'img/producto-4.jpg', tallas:[{talla:'XS',stock:2},{talla:'S',stock:4},{talla:'M',stock:4},{talla:'L',stock:2},{talla:'XL',stock:1},{talla:'XXL',stock:0}], destacado:true, nuevo:true, activo:true },
-    { nombre:'Legging Sculpt Pro', descripcion:'Legging moldeador de alta compresión con bolsillo lateral y cintura alta. Tela sculpt push-up.', precio:34990, precioOriginal:0, categoria:'bottoms', imagen:'https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=500&auto=format', tallas:[{talla:'XS',stock:4},{talla:'S',stock:6},{talla:'M',stock:5},{talla:'L',stock:3},{talla:'XL',stock:1},{talla:'XXL',stock:0}], destacado:false, nuevo:true, activo:true },
-    { nombre:'Shorts Active Bicolor', descripcion:'Shorts deportivos bicolor con bolsillos laterales y cintura elástica ajustable.', precio:21990, precioOriginal:0, categoria:'bottoms', imagen:'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&auto=format', tallas:[{talla:'XS',stock:3},{talla:'S',stock:5},{talla:'M',stock:4},{talla:'L',stock:2},{talla:'XL',stock:1},{talla:'XXL',stock:0}], destacado:false, nuevo:true, activo:true },
-    { nombre:'Bolso Gym Boutique', descripcion:'Bolso deportivo de lona resistente con compartimiento para calzado y bolsillo interior.', precio:29990, precioOriginal:39990, categoria:'accesorios', imagen:'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format', tallas:[{talla:'UNICA',stock:10}], destacado:false, nuevo:false, activo:true }
-  ];
-
-  const batch = db.batch();
-  demo.forEach(p => {
-    const ref = db.collection('productos').doc();
-    batch.set(ref, { ...p, fechaCreacion: firebase.firestore.FieldValue.serverTimestamp(), fechaActualizacion: firebase.firestore.FieldValue.serverTimestamp() });
-  });
-  await batch.commit();
-  showToast('¡Productos de demo agregados!');
-}

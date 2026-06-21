@@ -22,7 +22,7 @@ function renderOrderSummary() {
   if (listEl) {
     listEl.innerHTML = cart.map(item => `
       <div class="checkout-item">
-        <img src="${item.imagen || 'img/no-image.jpg'}" alt="${item.nombre}" onerror="this.src='img/no-image.jpg'">
+        <img src="${item.imagen || 'img/no-image.jpg'}" alt="${item.nombre}" onerror="this.onerror=null;this.src='img/no-image.jpg'">
         <div class="checkout-item-info">
           <p class="item-name">${item.nombre}</p>
           <p class="item-meta">Talla: ${item.talla} · Cantidad: ${item.cantidad}</p>

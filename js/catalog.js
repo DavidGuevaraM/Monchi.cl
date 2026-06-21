@@ -1,18 +1,8 @@
 // ─────────────────────────────────────────────────────────────
-//  Catálogo de productos
+//  Catálogo de productos — cargado desde Firestore
 // ─────────────────────────────────────────────────────────────
-let allProducts    = [];
-let activeFilters  = { categoria: 'todos', ordenar: 'destacado', busqueda: '' };
-
-const TALLAS_STD  = [{talla:'XS',stock:4},{talla:'S',stock:6},{talla:'M',stock:5},{talla:'L',stock:3},{talla:'XL',stock:1},{talla:'XXL',stock:0}];
-const FALLBACK_PRODUCTS = [
-  { id:'f1', nombre:'Conjunto Vino & Crema', descripcion:'Set halter top + shorts sculpt en vinotinto y crema. Tela de alto rendimiento con compresión media.', precio:54990, precioOriginal:69990, categoria:'conjuntos', imagen:'img/producto-1.jpg', tallas:TALLAS_STD, destacado:true, nuevo:true, activo:true },
-  { id:'f2', nombre:'Top Espalda Abierta', descripcion:'Top manga larga con espalda abierta, disponible en marrón y negro. Tejido técnico suave de secado rápido.', precio:28990, precioOriginal:0, categoria:'tops', imagen:'img/producto-2.jpg', tallas:TALLAS_STD, destacado:true, nuevo:true, activo:true },
-  { id:'f3', nombre:'Sport Bra Halter', descripcion:'Bra deportivo halter con fruncido frontal, disponible en plateado, negro y crema.', precio:24990, precioOriginal:32990, categoria:'tops', imagen:'img/producto-3.jpg', tallas:TALLAS_STD, destacado:true, nuevo:false, activo:true },
-  { id:'f4', nombre:'Conjunto Khaki Active', descripcion:'Top manga larga espalda abierta + shorts coordinados en color khaki. Tela sculpt ultrasuave.', precio:49990, precioOriginal:0, categoria:'conjuntos', imagen:'img/producto-4.jpg', tallas:TALLAS_STD, destacado:true, nuevo:true, activo:true },
-  { id:'f5', nombre:'Shorts Sculpt Vinotinto', descripcion:'Shorts de cintura alta con doble capa sculpt. Combina con el top halter del mismo conjunto.', precio:29990, precioOriginal:0, categoria:'bottoms', imagen:'img/producto-1.jpg', tallas:TALLAS_STD, destacado:false, nuevo:true, activo:true },
-  { id:'f6', nombre:'Top Halter Crema', descripcion:'Top halter en crema suave, parte del conjunto bicolor. Tela sculpt de alto rendimiento.', precio:27990, precioOriginal:34990, categoria:'tops', imagen:'img/producto-1.jpg', tallas:TALLAS_STD, destacado:false, nuevo:false, activo:true }
-];
+let allProducts   = [];
+let activeFilters = { categoria: 'todos', ordenar: 'destacado', busqueda: '' };
 
 const CAT_LABELS = {
   tops:       'Tops & Bras',
@@ -27,13 +17,29 @@ async function loadProducts() {
   try {
     const snap = await db.collection('productos').where('activo', '==', true).get();
     allProducts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    if (allProducts.length === 0) allProducts = FALLBACK_PRODUCTS;
     applyFilters();
   } catch(e) {
-    console.error(e);
-    allProducts = FALLBACK_PRODUCTS;
-    applyFilters();
+    console.error('Error cargando productos:', e);
+    allProducts = [];
+    showDbError();
   }
+}
+
+function showDbError() {
+  const grid = document.getElementById('products-grid');
+  if (!grid) return;
+  const count = document.getElementById('product-count');
+  if (count) count.textContent = '0 productos';
+  grid.innerHTML = `
+    <div class="empty-state">
+      <div class="empty-icon">
+        <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="var(--rose)" stroke-width="1.5" stroke-linecap="round">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+      </div>
+      <p>No pudimos cargar los productos. Verifica tu conexión.</p>
+      <button class="btn-secondary" onclick="loadProducts()">Reintentar</button>
+    </div>`;
 }
 
 function applyFilters() {
@@ -51,10 +57,10 @@ function applyFilters() {
   }
 
   const sorts = {
-    destacado:   (a, b) => (b.destacado ? 1 : 0) - (a.destacado ? 1 : 0),
+    destacado:    (a, b) => (b.destacado ? 1 : 0) - (a.destacado ? 1 : 0),
     'precio-asc': (a, b) => a.precio - b.precio,
     'precio-desc':(a, b) => b.precio - a.precio,
-    nuevo:       (a, b) => (b.fechaCreacion?.seconds||0) - (a.fechaCreacion?.seconds||0)
+    nuevo:        (a, b) => (b.fechaCreacion?.seconds||0) - (a.fechaCreacion?.seconds||0)
   };
   list.sort(sorts[activeFilters.ordenar] || sorts.destacado);
 
@@ -67,6 +73,19 @@ function renderProducts(list) {
 
   const count = document.getElementById('product-count');
   if (count) count.textContent = `${list.length} producto${list.length !== 1 ? 's' : ''}`;
+
+  if (allProducts.length === 0) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">
+          <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="var(--rose)" stroke-width="1.5" stroke-linecap="round">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>
+          </svg>
+        </div>
+        <p>Pronto tendremos productos disponibles. ¡Vuelve pronto!</p>
+      </div>`;
+    return;
+  }
 
   if (list.length === 0) {
     grid.innerHTML = `
@@ -106,19 +125,21 @@ function renderProducts(list) {
 }
 
 function productCard(p) {
-  const hasDisco   = p.precioOriginal > 0 && p.precioOriginal > p.precio;
-  const discoPct   = hasDisco ? Math.round((1 - p.precio / p.precioOriginal) * 100) : 0;
-  const sizes      = (p.tallas || []);
-  const inStock    = sizes.some(t => t.stock > 0);
+  const hasDisco = p.precioOriginal > 0 && p.precioOriginal > p.precio;
+  const discoPct = hasDisco ? Math.round((1 - p.precio / p.precioOriginal) * 100) : 0;
+  const sizes    = (p.tallas || []);
+  const inStock  = sizes.some(t => t.stock > 0);
+  const imgSrc   = p.imagen || 'img/no-image.jpg';
 
   return `
 <div class="product-card" data-id="${p.id}">
   <div class="product-img-wrap">
-    <img src="${p.imagen || 'img/no-image.jpg'}" alt="${p.nombre}" loading="lazy" onerror="this.src='img/no-image.jpg'">
+    <img src="${imgSrc}" alt="${p.nombre}" loading="lazy"
+         onerror="this.onerror=null;this.src='img/no-image.jpg'">
     <div class="product-badges">
-      ${p.nuevo      ? '<span class="badge new">Nuevo</span>' : ''}
-      ${hasDisco     ? `<span class="badge sale">-${discoPct}%</span>` : ''}
-      ${!inStock     ? '<span class="badge sold">Agotado</span>' : ''}
+      ${p.nuevo  ? '<span class="badge new">Nuevo</span>' : ''}
+      ${hasDisco ? `<span class="badge sale">-${discoPct}%</span>` : ''}
+      ${!inStock ? '<span class="badge sold">Agotado</span>' : ''}
     </div>
   </div>
   <div class="product-body">
@@ -188,5 +209,14 @@ document.addEventListener('DOMContentLoaded', () => {
         applyFilters();
       }, 350);
     });
+  }
+
+  // URL category param (e.g. index.html?cat=tops)
+  const urlCat = new URLSearchParams(location.search).get('cat');
+  if (urlCat) {
+    activeFilters.categoria = urlCat;
+    document.querySelectorAll('[data-cat-filter]').forEach(b =>
+      b.classList.toggle('active', b.dataset.catFilter === urlCat)
+    );
   }
 });
