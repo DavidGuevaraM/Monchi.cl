@@ -1,82 +1,43 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 215" width="500" height="215">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 122">
+  <defs>
+    <!-- Degradado ala izquierda: oscuro en centro → claro en punta -->
+    <linearGradient id="lw" x1="200" y1="0" x2="36" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#7A4F4A"/>
+      <stop offset="100%" stop-color="#D4A5A0"/>
+    </linearGradient>
+    <!-- Degradado ala derecha -->
+    <linearGradient id="rw" x1="200" y1="0" x2="364" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#7A4F4A"/>
+      <stop offset="100%" stop-color="#D4A5A0"/>
+    </linearGradient>
+  </defs>
 
-  <!-- ═══════════════════════════════════════════════
-       GELYBOUTIQUE — Logo SVG
-       Paleta: rose (#7A4F4A → #E0BFBA)
-       5 plumas por ala, stroke degradado oscuro→claro
-  ════════════════════════════════════════════════ -->
+  <!-- ── ALA IZQUIERDA ─────────────────────────────────── -->
+  <!-- Blade que nace en el centro (200,36), barre hacia la izquierda
+       y apunta en (36,12). Borde superior arqueado, inferior suave. -->
+  <path d="M 200,36 C 155,22 98,9 36,12 C 98,15 155,39 200,49 Z"
+        fill="url(#lw)"/>
 
-  <!-- ── ALA IZQUIERDA ── -->
+  <!-- ── ALA DERECHA ──────────────────────────────────── -->
+  <path d="M 200,36 C 245,22 302,9 364,12 C 302,15 245,39 200,49 Z"
+        fill="url(#rw)"/>
 
-  <!-- Pluma 1 · más horizontal · más oscura -->
-  <path d="M 241,121 C 195,116 128,112 40,107"
-        fill="none" stroke="#7A4F4A" stroke-width="5.5" stroke-linecap="round"/>
-
-  <!-- Pluma 2 -->
-  <path d="M 239,113 C 196,94 150,70 80,51"
-        fill="none" stroke="#9A6B65" stroke-width="4.5" stroke-linecap="round"/>
-
-  <!-- Pluma 3 -->
-  <path d="M 237,105 C 206,78 172,51 127,25"
-        fill="none" stroke="#B88078" stroke-width="3.5" stroke-linecap="round"/>
-
-  <!-- Pluma 4 -->
-  <path d="M 235,97 C 220,71 206,44 191,13"
-        fill="none" stroke="#CFA09A" stroke-width="2.5" stroke-linecap="round"/>
-
-  <!-- Pluma 5 · más vertical · más clara -->
-  <path d="M 233,89 C 225,65 218,41 213,7"
-        fill="none" stroke="#E0BFBA" stroke-width="1.8" stroke-linecap="round"/>
-
-
-  <!-- ── ALA DERECHA ── -->
-
-  <!-- Pluma 1 -->
-  <path d="M 259,121 C 305,116 372,112 460,107"
-        fill="none" stroke="#7A4F4A" stroke-width="5.5" stroke-linecap="round"/>
-
-  <!-- Pluma 2 -->
-  <path d="M 261,113 C 304,94 350,70 420,51"
-        fill="none" stroke="#9A6B65" stroke-width="4.5" stroke-linecap="round"/>
-
-  <!-- Pluma 3 -->
-  <path d="M 263,105 C 294,78 328,51 373,25"
-        fill="none" stroke="#B88078" stroke-width="3.5" stroke-linecap="round"/>
-
-  <!-- Pluma 4 -->
-  <path d="M 265,97 C 280,71 294,44 309,13"
-        fill="none" stroke="#CFA09A" stroke-width="2.5" stroke-linecap="round"/>
-
-  <!-- Pluma 5 -->
-  <path d="M 267,89 C 275,65 282,41 287,7"
-        fill="none" stroke="#E0BFBA" stroke-width="1.8" stroke-linecap="round"/>
-
-
-  <!-- ── JOYA CENTRAL ── -->
-  <circle cx="250" cy="117" r="6"   fill="#8C5E58"/>
-  <circle cx="250" cy="117" r="3.5" fill="#D4A5A0"/>
-  <circle cx="250" cy="117" r="1.5" fill="#F7EDEB"/>
-
-
-  <!-- ── TEXTO GELY ── -->
-  <text x="250" y="170"
+  <!-- ── GELY · Playfair Display bold ─────────────────── -->
+  <text x="200" y="90"
         text-anchor="middle"
-        font-family="Georgia,'Times New Roman',serif"
-        font-size="44"
-        font-weight="bold"
+        font-family="'Playfair Display', Georgia, serif"
+        font-size="37"
+        font-weight="700"
         fill="#7A4F4A"
-        letter-spacing="7">GELY</text>
+        letter-spacing="6">GELY</text>
 
-  <!-- ── TEXTO BOUTIQUE ── -->
-  <text x="250" y="190"
+  <!-- ── BOUTIQUE · Nunito ligero + tracking amplio ────── -->
+  <text x="200" y="110"
         text-anchor="middle"
-        font-family="Georgia,'Times New Roman',serif"
-        font-size="12"
-        fill="#B88078"
-        letter-spacing="11">BOUTIQUE</text>
-
-  <!-- ── LÍNEA DECORATIVA ── -->
-  <line x1="185" y1="198" x2="315" y2="198"
-        stroke="#D4A5A0" stroke-width="0.75"/>
+        font-family="'Nunito', Helvetica, Arial, sans-serif"
+        font-size="10"
+        font-weight="400"
+        fill="#C08880"
+        letter-spacing="10">BOUTIQUE</text>
 
 </svg>
