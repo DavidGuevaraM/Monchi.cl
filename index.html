@@ -46,32 +46,69 @@
   </div>
 </header>
 
-<!-- Hero -->
+<!-- Hero: scroll-scrubbed video -->
 <section class="hero" id="inicio">
-  <div class="hero-bg">
-    <img src="img/hero-model.png" alt="Colección GELYboutique — Mujer en ropa deportiva crema">
-  </div>
-  <div class="hero-overlay"></div>
-  <div class="container hero-inner">
-    <div class="hero-content">
-      <span class="hero-eyebrow">Nueva Colección 2025</span>
-      <h1 class="hero-title">
-        Actívate<br>con <em>Estilo</em>
-      </h1>
-      <p class="hero-desc">
-        Ropa deportiva diseñada para mujeres que buscan rendimiento,
-        comodidad y elegancia en cada entrenamiento.
-      </p>
-      <div class="hero-ctas">
-        <a href="#productos" class="btn-primary">
-          Ver Colección
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
-            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
-          </svg>
-        </a>
-        <a href="pedido.html" class="btn-secondary">Rastrear pedido</a>
+  <div class="hero-sticky">
+
+    <!-- Video background -->
+    <div class="hero-bg">
+      <video id="hero-video" muted playsinline preload="auto">
+        <source src="img/hero-video.mp4" type="video/mp4">
+      </video>
+    </div>
+
+    <!-- Gradient overlay -->
+    <div class="hero-overlay"></div>
+
+    <!-- Title + CTAs -->
+    <div class="hero-text-layer" id="hero-text-layer">
+      <div class="container">
+        <div class="hero-inner">
+          <span class="hero-eyebrow">Nueva Colección 2025</span>
+          <h1 class="hero-title">Actívate<br>con <em>Estilo</em></h1>
+          <div class="hero-ctas">
+            <a href="#productos" class="btn-primary">
+              Ver Colección
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+            <a href="pedido.html" class="btn-secondary">Rastrear pedido</a>
+          </div>
+        </div>
       </div>
     </div>
+
+    <!-- Category hotspots (appear as video scrubs) -->
+    <div class="hero-hotspots">
+      <div class="hotspot hotspot-1">
+        <a class="hotspot-card" href="#productos" data-filter="tops">
+          <span class="hotspot-cat">Tops & Bras</span>
+          <span class="hotspot-sub">Ver colección →</span>
+        </a>
+        <div class="hotspot-dot"></div>
+      </div>
+      <div class="hotspot hotspot-2">
+        <a class="hotspot-card" href="#productos" data-filter="conjuntos">
+          <span class="hotspot-cat">Conjuntos</span>
+          <span class="hotspot-sub">Ver colección →</span>
+        </a>
+        <div class="hotspot-dot"></div>
+      </div>
+      <div class="hotspot hotspot-3">
+        <a class="hotspot-card" href="#productos" data-filter="bottoms">
+          <span class="hotspot-cat">Leggings</span>
+          <span class="hotspot-sub">Ver colección →</span>
+        </a>
+        <div class="hotspot-dot"></div>
+      </div>
+    </div>
+
+    <!-- Scroll cue -->
+    <div class="scroll-cue" id="scroll-cue">
+      <div class="scroll-cue-bar"></div>
+    </div>
+
   </div>
 </section>
 
@@ -305,6 +342,70 @@
       b.classList.toggle('active', b.dataset.catFilter === urlCat);
     });
   }
+
+  // ── Hero video scroll scrubbing ──
+  (function () {
+    const hero      = document.querySelector('.hero');
+    const video     = document.getElementById('hero-video');
+    const textLayer = document.getElementById('hero-text-layer');
+    const hotspots  = document.querySelectorAll('.hotspot');
+    const scrollCue = document.getElementById('scroll-cue');
+    if (!hero || !video) return;
+
+    // Trigger load on iOS (needs a play/pause to buffer)
+    const loadPromise = video.play();
+    if (loadPromise) loadPromise.then(() => { video.pause(); video.currentTime = 0; }).catch(() => {});
+
+    let raf = null;
+
+    function scrub() {
+      raf = null;
+      const heroTop  = hero.getBoundingClientRect().top;
+      const scrollable = hero.offsetHeight - window.innerHeight;
+      if (scrollable <= 0) return;
+
+      const p = Math.min(Math.max(-heroTop / scrollable, 0), 1);
+
+      // Scrub video frame
+      if (video.readyState >= 1 && video.duration) {
+        video.currentTime = video.duration * p;
+      }
+
+      // Text fades out 12% → 32%
+      const tOp = p < 0.12 ? 1 : Math.max(0, 1 - (p - 0.12) / 0.20);
+      textLayer.style.opacity = tOp;
+      textLayer.style.transform = 'translateY(' + ((1 - tOp) * -28) + 'px)';
+
+      // Scroll cue fades instantly
+      scrollCue.style.opacity = Math.max(0, 1 - p * 10);
+
+      // Hotspots appear sequentially
+      hotspots[0] && hotspots[0].classList.toggle('visible', p >= 0.30);
+      hotspots[1] && hotspots[1].classList.toggle('visible', p >= 0.55);
+      hotspots[2] && hotspots[2].classList.toggle('visible', p >= 0.75);
+    }
+
+    window.addEventListener('scroll', function () {
+      if (!raf) raf = requestAnimationFrame(scrub);
+    }, { passive: true });
+
+    scrub();
+
+    // Hotspot tap → apply catalog filter then scroll to products
+    document.querySelectorAll('[data-filter]').forEach(function (el) {
+      el.addEventListener('click', function () {
+        const cat = this.dataset.filter;
+        if (!cat) return;
+        if (typeof activeFilters !== 'undefined') {
+          activeFilters.categoria = cat;
+          document.querySelectorAll('[data-cat-filter]').forEach(function (b) {
+            b.classList.toggle('active', b.dataset.catFilter === cat);
+          });
+          if (typeof applyFilters === 'function') applyFilters();
+        }
+      });
+    });
+  })();
 </script>
 
 </body>
