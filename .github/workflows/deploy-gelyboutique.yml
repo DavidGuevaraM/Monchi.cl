@@ -29,10 +29,10 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      - name: Upload artifact (gelyboutique subfolder)
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: gelyboutique
+          path: '.'
 
       - name: Deploy to GitHub Pages
         id: deployment
