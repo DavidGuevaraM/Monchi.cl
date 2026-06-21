@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 215" width="500" height="215">
+
+  <!-- ═══════════════════════════════════════════════
+       GELYBOUTIQUE — Logo SVG
+       Paleta: rose (#7A4F4A → #E0BFBA)
+       5 plumas por ala, stroke degradado oscuro→claro
+  ════════════════════════════════════════════════ -->
+
+  <!-- ── ALA IZQUIERDA ── -->
+
+  <!-- Pluma 1 · más horizontal · más oscura -->
+  <path d="M 241,121 C 195,116 128,112 40,107"
+        fill="none" stroke="#7A4F4A" stroke-width="5.5" stroke-linecap="round"/>
+
+  <!-- Pluma 2 -->
+  <path d="M 239,113 C 196,94 150,70 80,51"
+        fill="none" stroke="#9A6B65" stroke-width="4.5" stroke-linecap="round"/>
+
+  <!-- Pluma 3 -->
+  <path d="M 237,105 C 206,78 172,51 127,25"
+        fill="none" stroke="#B88078" stroke-width="3.5" stroke-linecap="round"/>
+
+  <!-- Pluma 4 -->
+  <path d="M 235,97 C 220,71 206,44 191,13"
+        fill="none" stroke="#CFA09A" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Pluma 5 · más vertical · más clara -->
+  <path d="M 233,89 C 225,65 218,41 213,7"
+        fill="none" stroke="#E0BFBA" stroke-width="1.8" stroke-linecap="round"/>
+
+
+  <!-- ── ALA DERECHA ── -->
+
+  <!-- Pluma 1 -->
+  <path d="M 259,121 C 305,116 372,112 460,107"
+        fill="none" stroke="#7A4F4A" stroke-width="5.5" stroke-linecap="round"/>
+
+  <!-- Pluma 2 -->
+  <path d="M 261,113 C 304,94 350,70 420,51"
+        fill="none" stroke="#9A6B65" stroke-width="4.5" stroke-linecap="round"/>
+
+  <!-- Pluma 3 -->
+  <path d="M 263,105 C 294,78 328,51 373,25"
+        fill="none" stroke="#B88078" stroke-width="3.5" stroke-linecap="round"/>
+
+  <!-- Pluma 4 -->
+  <path d="M 265,97 C 280,71 294,44 309,13"
+        fill="none" stroke="#CFA09A" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Pluma 5 -->
+  <path d="M 267,89 C 275,65 282,41 287,7"
+        fill="none" stroke="#E0BFBA" stroke-width="1.8" stroke-linecap="round"/>
+
+
+  <!-- ── JOYA CENTRAL ── -->
+  <circle cx="250" cy="117" r="6"   fill="#8C5E58"/>
+  <circle cx="250" cy="117" r="3.5" fill="#D4A5A0"/>
+  <circle cx="250" cy="117" r="1.5" fill="#F7EDEB"/>
+
+
+  <!-- ── TEXTO GELY ── -->
+  <text x="250" y="170"
+        text-anchor="middle"
+        font-family="Georgia,'Times New Roman',serif"
+        font-size="44"
+        font-weight="bold"
+        fill="#7A4F4A"
+        letter-spacing="7">GELY</text>
+
+  <!-- ── TEXTO BOUTIQUE ── -->
+  <text x="250" y="190"
+        text-anchor="middle"
+        font-family="Georgia,'Times New Roman',serif"
+        font-size="12"
+        fill="#B88078"
+        letter-spacing="11">BOUTIQUE</text>
+
+  <!-- ── LÍNEA DECORATIVA ── -->
+  <line x1="185" y1="198" x2="315" y2="198"
+        stroke="#D4A5A0" stroke-width="0.75"/>
+
+</svg>
