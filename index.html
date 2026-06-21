@@ -400,6 +400,34 @@
         '</div></div>';
     }
 
+    var FEATURED_FALLBACK = [
+      { id:'f1', nombre:'Conjunto Vino & Crema', precio:54990, precioOriginal:69990, categoria:'conjuntos', imagen:'https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=500&auto=format' },
+      { id:'f2', nombre:'Top Espalda Abierta',   precio:28990, precioOriginal:0,     categoria:'tops',      imagen:'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=500&auto=format' },
+      { id:'f3', nombre:'Sport Bra Multicolor',  precio:24990, precioOriginal:32990, categoria:'tops',      imagen:'https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=500&auto=format' },
+      { id:'f4', nombre:'Conjunto Khaki Active', precio:49990, precioOriginal:0,     categoria:'conjuntos', imagen:'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&auto=format' }
+    ];
+
+    function wireFilterLinks() {
+      track.querySelectorAll('[data-filter]').forEach(function (el) {
+        el.addEventListener('click', function () {
+          var cat = this.dataset.filter;
+          if (!cat) return;
+          if (typeof activeFilters !== 'undefined') {
+            activeFilters.categoria = cat;
+            document.querySelectorAll('[data-cat-filter]').forEach(function (b) {
+              b.classList.toggle('active', b.dataset.catFilter === cat);
+            });
+            if (typeof applyFilters === 'function') applyFilters();
+          }
+        });
+      });
+    }
+
+    function renderFallback() {
+      track.innerHTML = FEATURED_FALLBACK.map(function (p) { return cardHTML(p); }).join('');
+      wireFilterLinks();
+    }
+
     function loadFeatured() {
       if (typeof db === 'undefined') { setTimeout(loadFeatured, 200); return; }
       db.collection('productos')
@@ -408,28 +436,11 @@
         .limit(8)
         .get()
         .then(function (snap) {
-          if (snap.empty) {
-            track.innerHTML = '<p style="color:var(--brown-light);padding:24px 0;">No hay productos destacados aún.</p>';
-            return;
-          }
+          if (snap.empty) { renderFallback(); return; }
           track.innerHTML = snap.docs.map(function (d) { return cardHTML(Object.assign({ id: d.id }, d.data())); }).join('');
-          track.querySelectorAll('[data-filter]').forEach(function (el) {
-            el.addEventListener('click', function () {
-              var cat = this.dataset.filter;
-              if (!cat) return;
-              if (typeof activeFilters !== 'undefined') {
-                activeFilters.categoria = cat;
-                document.querySelectorAll('[data-cat-filter]').forEach(function (b) {
-                  b.classList.toggle('active', b.dataset.catFilter === cat);
-                });
-                if (typeof applyFilters === 'function') applyFilters();
-              }
-            });
-          });
+          wireFilterLinks();
         })
-        .catch(function () {
-          track.innerHTML = '<p style="color:var(--brown-light);padding:24px 0;">No se pudo cargar.</p>';
-        });
+        .catch(function () { renderFallback(); });
     }
 
     loadFeatured();

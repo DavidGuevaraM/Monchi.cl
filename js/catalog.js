@@ -4,6 +4,16 @@
 let allProducts    = [];
 let activeFilters  = { categoria: 'todos', ordenar: 'destacado', busqueda: '' };
 
+const TALLAS_STD  = [{talla:'XS',stock:4},{talla:'S',stock:6},{talla:'M',stock:5},{talla:'L',stock:3},{talla:'XL',stock:1},{talla:'XXL',stock:0}];
+const FALLBACK_PRODUCTS = [
+  { id:'f1', nombre:'Conjunto Vino & Crema', descripcion:'Set halter top + shorts sculpt en vinotinto y crema. Tela de alto rendimiento con compresión media.', precio:54990, precioOriginal:69990, categoria:'conjuntos', imagen:'https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=500&auto=format', tallas:TALLAS_STD, destacado:true, nuevo:true, activo:true },
+  { id:'f2', nombre:'Top Espalda Abierta', descripcion:'Top manga larga con espalda abierta en chocolate y negro. Tejido técnico suave de secado rápido.', precio:28990, precioOriginal:0, categoria:'tops', imagen:'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=500&auto=format', tallas:TALLAS_STD, destacado:true, nuevo:true, activo:true },
+  { id:'f3', nombre:'Sport Bra Multicolor', descripcion:'Bra deportivo de sujeción media en plateado, negro y crema. Ideal para pilates y yoga.', precio:24990, precioOriginal:32990, categoria:'tops', imagen:'https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=500&auto=format', tallas:TALLAS_STD, destacado:true, nuevo:false, activo:true },
+  { id:'f4', nombre:'Conjunto Khaki Active', descripcion:'Top manga larga + shorts coordinados en beige khaki. Corte relajado y tela ultrasuave.', precio:49990, precioOriginal:0, categoria:'conjuntos', imagen:'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&auto=format', tallas:TALLAS_STD, destacado:true, nuevo:true, activo:true },
+  { id:'f5', nombre:'Legging Sculpt Pro', descripcion:'Legging moldeador de alta compresión con bolsillo lateral y cintura alta.', precio:34990, precioOriginal:0, categoria:'bottoms', imagen:'https://images.unsplash.com/photo-1538805060514-97d9cc17730c?w=500&auto=format', tallas:TALLAS_STD, destacado:false, nuevo:true, activo:true },
+  { id:'f6', nombre:'Shorts Active Bicolor', descripcion:'Shorts deportivos bicolor con bolsillos laterales y cintura elástica ajustable.', precio:21990, precioOriginal:0, categoria:'bottoms', imagen:'https://images.unsplash.com/photo-1548690312-e3b507d8c110?w=500&auto=format', tallas:TALLAS_STD, destacado:false, nuevo:false, activo:true }
+];
+
 const CAT_LABELS = {
   tops:       'Tops & Bras',
   bottoms:    'Bottoms & Leggings',
@@ -17,11 +27,12 @@ async function loadProducts() {
   try {
     const snap = await db.collection('productos').where('activo', '==', true).get();
     allProducts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    if (allProducts.length === 0) allProducts = FALLBACK_PRODUCTS;
     applyFilters();
   } catch(e) {
     console.error(e);
-    document.getElementById('products-grid').innerHTML =
-      `<div class="empty-state"><p>Error al cargar. <button class="btn-link" onclick="loadProducts()">Reintentar</button></p></div>`;
+    allProducts = FALLBACK_PRODUCTS;
+    applyFilters();
   }
 }
 
@@ -60,7 +71,7 @@ function renderProducts(list) {
   if (list.length === 0) {
     grid.innerHTML = `
       <div class="empty-state">
-        <div class="empty-icon">🔍</div>
+        <div class="empty-icon"><svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="var(--rose)" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
         <p>No encontramos productos con ese filtro.</p>
         <button class="btn-secondary" onclick="resetFilters()">Ver todos</button>
       </div>`;
