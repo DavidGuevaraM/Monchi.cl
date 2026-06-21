@@ -3,6 +3,7 @@ name: Deploy GELYboutique to GitHub Pages
 on:
   push:
     branches:
+      - main
       - claude/gelyboutique-ecommerce-platform-z435jg
   workflow_dispatch:
 
