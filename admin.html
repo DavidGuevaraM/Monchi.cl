@@ -321,8 +321,20 @@
             </select>
           </div>
           <div class="form-group full">
-            <label>Imagen (ruta o URL)</label>
-            <input type="text" name="imagen" placeholder="img/producto-1.jpg  o  https://...">
+            <label>Imagen del producto</label>
+            <div class="img-upload-zone" id="img-upload-zone">
+              <img id="img-preview-thumb" src="" alt="Vista previa">
+              <div id="img-upload-placeholder">
+                <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21 15 16 10 5 21"/>
+                </svg>
+                <p>Toca aquí para subir imagen</p>
+                <p class="img-upload-hint">JPG, PNG o WebP · Máx. 5 MB</p>
+              </div>
+            </div>
+            <input type="file" id="img-file-input" accept="image/jpeg,image/png,image/webp,image/gif">
+            <input type="hidden" name="imagen" id="img-url-hidden">
           </div>
         </div>
 
@@ -360,6 +372,7 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <script src="js/config.js"></script>
 <script src="js/email.js"></script>

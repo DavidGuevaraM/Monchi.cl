@@ -1,8 +1,11 @@
 // ─────────────────────────────────────────────────────────────
 //  Panel de administración — GELYboutique
 // ─────────────────────────────────────────────────────────────
-let currentTab     = 'pedidos';
-let unsubscribers  = [];
+let currentTab       = 'pedidos';
+let unsubscribers    = [];
+let pendingImageFile = null;
+
+const storage = firebase.storage();
 
 // ── Auth ──────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
@@ -29,6 +32,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('[data-tab]').forEach(btn => {
     btn.addEventListener('click', () => openTab(btn.dataset.tab));
+  });
+
+  document.getElementById('img-upload-zone')?.addEventListener('click', () => {
+    document.getElementById('img-file-input')?.click();
+  });
+
+  document.getElementById('img-file-input')?.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      showToast('La imagen no puede superar 5 MB', 'error');
+      e.target.value = '';
+      return;
+    }
+    pendingImageFile = file;
+    setImgPreview(URL.createObjectURL(file));
   });
 });
 
@@ -209,27 +228,35 @@ async function guardarProducto(e) {
   const data   = Object.fromEntries(new FormData(form));
   const pid    = form.dataset.pid;
   btn.disabled = true;
+  btn.textContent = 'Guardando…';
 
   const tallas = ['XS','S','M','L','XL','XXL'].map(t => ({
     talla: t,
     stock: parseInt(document.getElementById(`stock-${t}`)?.value || '0')
   }));
 
-  const productData = {
-    nombre:         data.nombre,
-    descripcion:    data.descripcion || '',
-    precio:         parseInt(data.precio),
-    precioOriginal: parseInt(data.precioOriginal || '0'),
-    categoria:      data.categoria,
-    imagen:         data.imagen || '',
-    tallas,
-    destacado:      data.destacado === 'on',
-    nuevo:          data.nuevo === 'on',
-    activo:         true,
-    fechaActualizacion: firebase.firestore.FieldValue.serverTimestamp()
-  };
+  let imagenUrl = data.imagen || '';
 
   try {
+    if (pendingImageFile) {
+      btn.textContent = 'Subiendo imagen…';
+      imagenUrl = await uploadImagen(pendingImageFile);
+    }
+
+    const productData = {
+      nombre:         data.nombre,
+      descripcion:    data.descripcion || '',
+      precio:         parseInt(data.precio),
+      precioOriginal: parseInt(data.precioOriginal || '0'),
+      categoria:      data.categoria,
+      imagen:         imagenUrl,
+      tallas,
+      destacado:      data.destacado === 'on',
+      nuevo:          data.nuevo === 'on',
+      activo:         true,
+      fechaActualizacion: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
     if (pid) {
       await db.collection('productos').doc(pid).update(productData);
       showToast('Producto actualizado');
@@ -238,6 +265,7 @@ async function guardarProducto(e) {
       await db.collection('productos').add(productData);
       showToast('Producto creado');
     }
+    clearImgPreview();
     closeModal('product-modal');
     form.reset();
     form.dataset.pid = '';
@@ -246,6 +274,7 @@ async function guardarProducto(e) {
     showToast('Error al guardar. Intenta de nuevo.', 'error');
   } finally {
     btn.disabled = false;
+    btn.textContent = 'Guardar producto';
   }
 }
 
@@ -256,10 +285,16 @@ async function editarProducto(pid) {
   form.reset();
   form.dataset.pid = pid;
 
-  ['nombre','descripcion','precio','precioOriginal','categoria','imagen'].forEach(field => {
+  ['nombre','descripcion','precio','precioOriginal','categoria'].forEach(field => {
     const el = form.querySelector(`[name="${field}"]`);
     if (el) el.value = p[field] ?? '';
   });
+
+  const imgUrl = p.imagen || '';
+  const hiddenImg = document.getElementById('img-url-hidden');
+  if (hiddenImg) hiddenImg.value = imgUrl;
+  pendingImageFile = null;
+  if (imgUrl) setImgPreview(imgUrl); else clearImgPreview();
 
   const chkDest  = form.querySelector('[name="destacado"]');
   const chkNuevo = form.querySelector('[name="nuevo"]');
@@ -283,6 +318,7 @@ function nuevoProducto() {
   const form = document.getElementById('product-form');
   form.reset();
   form.dataset.pid = '';
+  clearImgPreview();
   ['XS','S','M','L','XL','XXL'].forEach(t => {
     const el = document.getElementById(`stock-${t}`);
     if (el) el.value = 0;
@@ -351,6 +387,34 @@ async function actualizarStock(productId, talla, nuevoStock) {
     console.error('Error actualizando stock:', e);
     showToast('Error al guardar el stock', 'error');
   }
+}
+
+// ── Image upload ──────────────────────────────────────────────
+function setImgPreview(src) {
+  const zone  = document.getElementById('img-upload-zone');
+  const thumb = document.getElementById('img-preview-thumb');
+  if (!zone || !thumb) return;
+  thumb.src = src;
+  zone.classList.add('has-image');
+}
+
+function clearImgPreview() {
+  const zone   = document.getElementById('img-upload-zone');
+  const thumb  = document.getElementById('img-preview-thumb');
+  const input  = document.getElementById('img-file-input');
+  const hidden = document.getElementById('img-url-hidden');
+  if (zone)   zone.classList.remove('has-image');
+  if (thumb)  thumb.src = '';
+  if (input)  input.value = '';
+  if (hidden) hidden.value = '';
+  pendingImageFile = null;
+}
+
+async function uploadImagen(file) {
+  const ext  = file.name.split('.').pop().toLowerCase();
+  const path = `productos/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+  const snap = await storage.ref(path).put(file);
+  return await snap.ref.getDownloadURL();
 }
 
 // ── Helpers ───────────────────────────────────────────────────
